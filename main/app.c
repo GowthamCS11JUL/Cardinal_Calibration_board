@@ -13,7 +13,23 @@ void app_init() {
 void cmd_data_setup() {
   usb_cmd_data_setup(&USB_DATA, 0, "LED_ON", "OK", led_on);
   usb_cmd_data_setup(&USB_DATA, 1, "LED_OFF", "OK", led_off);
+}
 
+void command_dispatcher(UART_DATA *usb_data, Parsed_Command_t *cmd) {
+  /* -------------------------------------------- */ /* POWER */ /* --------------------------------------------
+                                                                  */
+  if (strcmp(cmd->tokens[0], "POWER") == 0) {
+    power_command_handler(usb_data, cmd);
+    return;
+  } /* -------------------------------------------- */ /* RESISTOR */ /* --------------------------------------------
+                                                                       */
+  if (strcmp(cmd->tokens[0], "RESISTOR") == 0) {
+    resistor_command_handler(usb_data, cmd);
+    return;
+  } /* -------------------------------------------- */ /* UNKNOWN */ /* --------------------------------------------
+                                                                      */
+  UART_Target_Transmit(usb_data->uartTargetIndex,
+                       (uint8_t *)"UNKNOWN_COMMAND\r\n", 17);
 }
 
 void UART0_IRQHandler(void) { UART_Interface_IRQ(&USB_UART); }

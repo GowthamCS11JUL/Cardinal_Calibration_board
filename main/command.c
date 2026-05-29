@@ -1,11 +1,5 @@
 
-
 #include "headers.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 
 /* ------------------------------------------------ */
 /* RESISTOR TABLE                                   */
@@ -24,34 +18,27 @@ static const Resistor_Map_t resistor_table[] = {{"120K", Relay_EN_4},
                                                 {"100", Relay_EN_9}};
 
 /* ------------------------------------------------ */
-/* DAC VALUE CONVERSION                             */
+/* DAC CONVERSION                                   */
 /* ------------------------------------------------ */
 
-/*
- * Convert millivolt value to DAC code
- *
- * Modify this table based on your calibration
- */
+static uint32_t voltage_to_dac(uint32_t millivolt) {
+  uint64_t temp;
 
-static uint32_t voltage_to_dac(uint32_t millivolt) 
-{
-millivolt=millivolt*1048575UL/5000UL; 
-return millivolt;
+  temp =
+
+      ((uint64_t)millivolt * 1048575ULL);
+
+  temp /= 5000ULL;
+
+  return (uint32_t)temp;
 }
 
 /* ------------------------------------------------ */
-/* POWER COMMAND HANDLER                            */
+/* POWER COMMAND                                    */
 /* ------------------------------------------------ */
 
 /*
- * COMMAND FORMAT:
- *
  * POWER_SET_3300_1
- *
- * tokens[0] = POWER
- * tokens[1] = SET
- * tokens[2] = 3300
- * tokens[3] = 1
  */
 
 void power_command_handler(
@@ -65,10 +52,6 @@ void power_command_handler(
 
   uint32_t dac_code;
 
-  /* -------------------------------------------- */
-  /* TOKEN COUNT CHECK                            */
-  /* -------------------------------------------- */
-
   if (cmd->token_count < 4) {
     UART_Target_Transmit(
 
@@ -80,10 +63,6 @@ void power_command_handler(
 
     return;
   }
-
-  /* -------------------------------------------- */
-  /* SUBCOMMAND CHECK                             */
-  /* -------------------------------------------- */
 
   if (strcmp(
 
@@ -103,41 +82,13 @@ void power_command_handler(
     return;
   }
 
-  /* -------------------------------------------- */
-  /* PARSE VALUES                                 */
-  /* -------------------------------------------- */
-
   voltage_mv = atoi(cmd->tokens[2]);
 
   site = atoi(cmd->tokens[3]);
 
-  /* -------------------------------------------- */
-  /* DAC VALUE                                    */
-  /* -------------------------------------------- */
-
   dac_code = voltage_to_dac(voltage_mv);
 
-  if (dac_code == 0) {
-    UART_Target_Transmit(
-
-        usb_data->uartTargetIndex,
-
-        (uint8_t *)"INVALID_VOLTAGE\r\n",
-
-        17);
-
-    return;
-  }
-
-  /* -------------------------------------------- */
-  /* DAC WRITE                                    */
-  /* -------------------------------------------- */
-
   Max5719GSD_write(dac_code);
-
-  /* -------------------------------------------- */
-  /* SITE SELECTION                               */
-  /* -------------------------------------------- */
 
   switch (site) {
   case 1:
@@ -171,10 +122,6 @@ void power_command_handler(
     return;
   }
 
-  /* -------------------------------------------- */
-  /* RESPONSE                                     */
-  /* -------------------------------------------- */
-
   sprintf(
 
       (char *)usb_data->tx_buffer,
@@ -195,17 +142,11 @@ void power_command_handler(
 }
 
 /* ------------------------------------------------ */
-/* RESISTOR COMMAND HANDLER                         */
+/* RESISTOR COMMAND                                 */
 /* ------------------------------------------------ */
 
 /*
- * COMMAND FORMAT:
- *
  * RESISTOR_SET_120K
- *
- * tokens[0] = RESISTOR
- * tokens[1] = SET
- * tokens[2] = 120K
  */
 
 void resistor_command_handler(
@@ -213,10 +154,6 @@ void resistor_command_handler(
     UART_DATA *usb_data,
 
     Parsed_Command_t *cmd) {
-  /* -------------------------------------------- */
-  /* TOKEN COUNT CHECK                            */
-  /* -------------------------------------------- */
-
   if (cmd->token_count < 3) {
     UART_Target_Transmit(
 
@@ -228,10 +165,6 @@ void resistor_command_handler(
 
     return;
   }
-
-  /* -------------------------------------------- */
-  /* SUBCOMMAND CHECK                             */
-  /* -------------------------------------------- */
 
   if (strcmp(
 
@@ -250,10 +183,6 @@ void resistor_command_handler(
 
     return;
   }
-
-  /* -------------------------------------------- */
-  /* SEARCH TABLE                                 */
-  /* -------------------------------------------- */
 
   for (uint8_t i = 0;
 
@@ -290,10 +219,6 @@ void resistor_command_handler(
       return;
     }
   }
-
-  /* -------------------------------------------- */
-  /* UNKNOWN VALUE                                */
-  /* -------------------------------------------- */
 
   UART_Target_Transmit(
 
