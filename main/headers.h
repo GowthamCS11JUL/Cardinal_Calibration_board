@@ -28,6 +28,7 @@
 // #include "command_function.h"
 #include "led.h"
 #include "relay.h"
+#include "command.h"
 #include "app.h"
 
 

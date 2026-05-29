@@ -1,6 +1,6 @@
 # FIXED
 
-usb.o: ../usb.c ../headers.h \
+command.o: ../command.c ../headers.h \
  ti_msp_dl_config.h \
  C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/DeviceFamily.h \

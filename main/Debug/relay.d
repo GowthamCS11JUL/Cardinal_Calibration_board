@@ -80,7 +80,7 @@ relay.o: ../relay.c ../relay.h ../headers.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Profiler.h \
  ../delay_timer.h ../usb.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h \
- ../adc.h ../variables.h ../led.h ../app.h
+ ../adc.h ../variables.h ../led.h ../command.h ../app.h
 ../relay.h:
 ../headers.h:
 ti_msp_dl_config.h:
@@ -166,4 +166,5 @@ D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h:
 ../adc.h:
 ../variables.h:
 ../led.h:
+../command.h:
 ../app.h:

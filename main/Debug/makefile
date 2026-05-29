@@ -12,6 +12,7 @@ GEN_CMDS__FLAG := -Wl,-l"./device_linker.cmd"
 ORDERED_OBJS += \
 "./adc.o" \
 "./app.o" \
+"./command.o" \
 "./delay_timer.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
@@ -140,7 +141,7 @@ all: $(OBJS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "main.out"
 
 dependents:
-	-cd D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Debug && $(MAKE) all
+	-cd D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Debug && $(MAKE) clean all
 
 # Tool invocations
 main.out: $(OBJS) $(GEN_CMDS) D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Debug/MSPM0G_Library.lib
@@ -153,8 +154,8 @@ main.out: $(OBJS) $(GEN_CMDS) D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc.o" "app.o" "delay_timer.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "led.o" "main.o" "relay.o" "usb.o" 
-	-$(RM) "adc.d" "app.d" "delay_timer.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "led.d" "main.d" "relay.d" "usb.d" 
+	-$(RM) "adc.o" "app.o" "command.o" "delay_timer.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "led.o" "main.o" "relay.o" "usb.o" 
+	-$(RM) "adc.d" "app.d" "command.d" "delay_timer.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "led.d" "main.d" "relay.d" "usb.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
