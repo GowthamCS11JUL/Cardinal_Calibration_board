@@ -78,9 +78,9 @@ led.o: ../led.c ../headers.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Timeout.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/UART_Target.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Profiler.h \
- ../delay_timer.h ../usb.h \
+ ../delay_timer.h ../dynamic_parser.h ../usb.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h \
- ../adc.h ../variables.h ../led.h ../relay.h ../app.h
+ ../adc.h ../variables.h ../led.h ../relay.h ../command.h ../app.h
 ../headers.h:
 ti_msp_dl_config.h:
 C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/msp.h:
@@ -160,10 +160,12 @@ D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Timeout.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/UART_Target.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Profiler.h:
 ../delay_timer.h:
+../dynamic_parser.h:
 ../usb.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h:
 ../adc.h:
 ../variables.h:
 ../led.h:
 ../relay.h:
+../command.h:
 ../app.h:

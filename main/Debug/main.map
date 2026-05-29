@@ -1,18 +1,18 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.0                      
 ******************************************************************************
->> Linked Thu May 28 16:31:53 2026
+>> Linked Fri May 29 15:53:53 2026
 
 OUTPUT FILE NAME:   <main.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001a19
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00002c9d
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00020000  00001de0  0001e220  R  X
-  SRAM                  20200000   00008000  0000169b  00006965  RW X
+  FLASH                 00000000   00020000  00003210  0001cdf0  R  X
+  SRAM                  20200000   00008000  00002238  00005dc8  RW X
   BCR_CONFIG            41c00000   00000080  00000000  00000080  R   
   BSL_CONFIG            41c00100   00000080  00000000  00000080  R   
 
@@ -21,13 +21,15 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00001de0   00001de0    r-x
+00000000    00000000    00003210   00003210    r-x
   00000000    00000000    000000c0   000000c0    r-- .intvecs
-  000000c0    000000c0    00001c98   00001c98    r-x .text
-  00001d58    00001d58    00000070   00000070    r-- .rodata
-  00001dc8    00001dc8    00000018   00000018    r-- .cinit
-20200000    20200000    0000149b   00000000    rw-
-  20200000    20200000    0000149b   00000000    rw- .bss
+  000000c0    000000c0    00003030   00003030    r-x .text
+  000030f0    000030f0    00000090   00000090    r-- .rodata
+  00003180    00003180    00000090   00000090    r-- .cinit
+20200000    20200000    00002039   00000000    rw-
+  20200000    20200000    00001667   00000000    rw- .bss
+  20201668    20201668    00000800   00000000    rw- .sysmem
+  20201e68    20201e68    000001d1   00000000    rw- .data
 20207e00    20207e00    00000200   00000000    rw-
   20207e00    20207e00    00000200   00000000    rw- .stack
 
@@ -40,156 +42,235 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    000000c0     
                   00000000    000000c0     startup_mspm0g350x_ticlang.o (.intvecs)
 
-.text      0    000000c0    00001c98     
-                  000000c0    000001de     MSPM0G_Library.lib : UART_Interface.o (.text.UART_Interface_IRQ)
-                  0000029e    00000002     startup_mspm0g350x_ticlang.o (.text.Default_Handler)
-                  000002a0    0000017c     MSPM0G_Library.lib : UART_Interface.o (.text.UART_Interface_Initialize)
-                  0000041c    0000010c     usb.o (.text.usb_fsm)
-                  00000528    00000100     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Inialize)
-                  00000628    000000e8     driverlib.a : dl_timer.o (.text.DL_Timer_initTimerMode)
-                  00000710    000000c0     usb.o (.text.process_usb_command)
-                  000007d0    000000b2     MSPM0G_Library.lib : SPI_Interface.o (.text.SPI_IRQ)
-                  00000882    000000a4                        : UART_Interface.o (.text.UART_Interface_Start_Transmit)
-                  00000926    000000a0                        : UART_Interface.o (.text.UART_Interface_Start_Receive)
-                  000009c6    0000009e     usb.o (.text.usb_cmd_data_setup)
-                  00000a64    0000009a     libc.a : memcpy16.S.obj (.text:memcpy)
-                  00000afe    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  00000b00    00000098     delay_timer.o (.text.Delay_Timer_Initialize)
-                  00000b98    00000090     ti_msp_dl_config.o (.text.SYSCFG_DL_UART_0_init)
-                  00000c28    00000088     MSPM0G_Library.lib : SPI_Interface.o (.text.SPI_Initialize)
-                  00000cb0    00000080     usb.o (.text.usb_init)
-                  00000d30    00000078     MSPM0G_Library.lib : UART_Interface.o (.text.UART_rxDMA_Initialize)
-                  00000da8    00000074                        : UART_Interface.o (.text.UART_txDMA_Initialize)
-                  00000e1c    00000074     relay.o (.text.relay_init_all)
-                  00000e90    00000070     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Initialize)
-                  00000f00    0000006c     ti_msp_dl_config.o (.text.SYSCFG_DL_GPIO_init)
-                  00000f6c    0000006c     MSPM0G_Library.lib : UART_Target.o (.text.targetRxInProgressCb)
-                  00000fd8    00000064                        : UART_Target.o (.text.UART_Target_AssignCallBacks)
-                  0000103c    00000062     libc.a : memset16.S.obj (.text:memset)
-                  0000109e    0000005a     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Time_Set)
-                  000010f8    00000058     ti_msp_dl_config.o (.text.SYSCFG_DL_SPI_0_init)
-                  00001150    00000054     driverlib.a : dl_uart.o (.text.DL_UART_drainRXFIFO)
-                  000011a4    00000054                 : dl_uart.o (.text.DL_UART_fillTXFIFO)
-                  000011f8    00000054     ti_msp_dl_config.o (.text.SYSCFG_DL_initPower)
-                  0000124c    00000054     app.o (.text.app_init)
-                  000012a0    0000004c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Receive)
-                  000012ec    00000048     driverlib.a : dl_uart.o (.text.DL_UART_init)
-                  00001334    00000044                 : dl_spi.o (.text.DL_SPI_init)
-                  00001378    00000040     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_init)
-                  000013b8    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  000013f8    0000003c     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_0_init)
-                  00001434    0000003c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Transmit)
-                  00001470    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
-                  000014ac    00000038     MSPM0G_Library.lib : UART_Interface.o (.text.DL_DMA_setTrigger)
-                  000014e4    00000038     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_2_init)
-                  0000151c    00000036     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Start)
-                  00001552    00000036                        : UART_Interface.o (.text.UART_Interface_Stop_Receive)
-                  00001588    00000034                        : UART_Interface.o (.text.DL_DMA_configMode)
-                  000015bc    00000034                        : UART_Target.o (.text.timerCallback)
-                  000015f0    00000032                        : UART_Interface.o (.text.DL_DMA_setDestWidth)
-                  00001622    00000030                        : UART_Interface.o (.text.DL_DMA_setDestIncrement)
-                  00001652    00000030                        : UART_Interface.o (.text.DL_DMA_setSrcWidth)
-                  00001682    00000002     --HOLE-- [fill = 0]
-                  00001684    00000030                        : UART_Interface.o (.text.DL_DMA_setTransferSize)
-                  000016b4    00000030     led.o (.text.led_off)
-                  000016e4    00000030     led.o (.text.led_on)
-                  00001714    00000030     MSPM0G_Library.lib : UART_Target.o (.text.targetRxDoneCb)
-                  00001744    00000030                        : UART_Target.o (.text.targetTxDoneCb)
-                  00001774    0000002e                        : UART_Interface.o (.text.DL_DMA_setSrcIncrement)
-                  000017a2    00000002     --HOLE-- [fill = 0]
-                  000017a4    0000002c                        : SPI_Interface.o (.text.__NVIC_ClearPendingIRQ)
-                  000017d0    0000002c                        : Timer_Timeout.o (.text.__NVIC_ClearPendingIRQ)
-                  000017fc    0000002c                        : UART_Interface.o (.text.__NVIC_ClearPendingIRQ)
-                  00001828    0000002c                        : SPI_Interface.o (.text.__NVIC_EnableIRQ)
-                  00001854    0000002c                        : Timer_Timeout.o (.text.__NVIC_EnableIRQ)
-                  00001880    0000002c                        : UART_Interface.o (.text.__NVIC_EnableIRQ)
-                  000018ac    0000002a                        : Timer_Timeout.o (.text.Timer_Timeout_IRQ)
-                  000018d6    0000002a                        : Timer_Timeout.o (.text.Timer_Timeout_reStart)
-                  00001900    00000028                        : Timer_Timeout.o (.text.DL_Common_updateReg)
-                  00001928    00000028                        : UART_Interface.o (.text.DL_Common_updateReg)
-                  00001950    00000028                        : UART_Interface.o (.text.DL_DMA_setDestAddr)
-                  00001978    00000028                        : UART_Interface.o (.text.DL_DMA_setSrcAddr)
-                  000019a0    00000028     adc.o (.text.Max5719GSD_init)
-                  000019c8    00000028     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_setState)
-                  000019f0    00000028                        : UART_Target.o (.text.targetTxInProgressCb)
-                  00001a18    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  00001a40    00000026     MSPM0G_Library.lib : UART_Interface.o (.text.DL_DMA_disableChannel)
-                  00001a66    00000026                        : UART_Interface.o (.text.DL_DMA_enableChannel)
-                  00001a8c    00000024     main.o (.text.main)
-                  00001ab0    00000020     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_setCounterValueAfterEnable)
-                  00001ad0    00000020     ti_msp_dl_config.o (.text.SYSCFG_DL_init)
-                  00001af0    0000001c     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_disableInterrupt)
-                  00001b0c    0000001c                        : Timer_Timeout.o (.text.DL_Timer_enableInterrupt)
-                  00001b28    0000001c     driverlib.a : dl_timer.o (.text.DL_Timer_setClockConfig)
-                  00001b44    0000001c     delay_timer.o (.text.Delay_Timer_Get)
-                  00001b60    0000001c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_getState)
-                  00001b7c    00000018                        : Timer_Timeout.o (.text.DL_Timer_clearInterruptStatus)
-                  00001b94    00000018                        : Timer_Timeout.o (.text.DL_Timer_setLoadValue)
-                  00001bac    00000018                        : Timer_Timeout.o (.text.DL_Timer_startCounter)
-                  00001bc4    00000018                        : Timer_Timeout.o (.text.DL_Timer_stopCounter)
-                  00001bdc    00000018     led.o (.text.led_init)
-                  00001bf4    00000016     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_transmitData16)
-                  00001c0a    00000016     delay_timer.o (.text.Delay_Timer_IRQ)
-                  00001c20    00000014     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_receiveData16)
-                  00001c34    00000014     delay_timer.o (.text.Delay_Timer_Start)
-                  00001c48    00000012     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_getPendingInterrupt)
-                  00001c5a    00000012     driverlib.a : dl_spi.o (.text.DL_SPI_setClockConfig)
-                  00001c6c    00000012     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_getPendingInterrupt)
-                  00001c7e    00000012                        : UART_Interface.o (.text.DL_UART_getPendingInterrupt)
-                  00001c90    00000012     driverlib.a : dl_uart.o (.text.DL_UART_setClockConfig)
-                  00001ca2    00000002     --HOLE-- [fill = 0]
-                  00001ca4    00000010     app.o (.text.SPI0_IRQHandler)
-                  00001cb4    00000010     app.o (.text.TIMA0_IRQHandler)
-                  00001cc4    00000010     app.o (.text.TIMG7_IRQHandler)
-                  00001cd4    00000010     app.o (.text.UART0_IRQHandler)
-                  00001ce4    00000010     MSPM0G_Library.lib : UART_Interface.o (.text.defaultUartCallBack)
-                  00001cf4    00000010                        : UART_Interface.o (.text.defaultUartInprogressCallback)
-                  00001d04    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
-                  00001d14    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  00001d20    0000000c     MSPM0G_Library.lib : Timer_Timeout.o (.text.defaultTimerSingleTriggerCB)
-                  00001d2c    0000000c                        : SPI_Interface.o (.text.noActionSPIInterface)
-                  00001d38    0000000a     driverlib.a : dl_common.o (.text.DL_Common_delayCycles)
-                  00001d42    00000002     --HOLE-- [fill = 0]
-                  00001d44    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  00001d4c    00000004     startup_mspm0g350x_ticlang.o (.text.Reset_Handler)
-                  00001d50    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  00001d54    00000004            : exit.c.obj (.text:abort)
+.text      0    000000c0    00003030     
+                  000000c0    000002b0     dynamic_parser.o (.text.dynamic_parse)
+                  00000370    00000284     libc.a : _printfi.c.obj (.text:__TI_printfi_minimal)
+                  000005f4    000001de     MSPM0G_Library.lib : UART_Interface.o (.text.UART_Interface_IRQ)
+                  000007d2    00000002     startup_mspm0g350x_ticlang.o (.text.Default_Handler)
+                  000007d4    0000017c     MSPM0G_Library.lib : UART_Interface.o (.text.UART_Interface_Initialize)
+                  00000950    00000124     usb.o (.text.process_usb_command)
+                  00000a74    00000118     usb.o (.text.usb_fsm)
+                  00000b8c    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
+                  00000ca0    00000100     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Inialize)
+                  00000da0    000000f8     libc.a : fputs.c.obj (.text.fputs)
+                  00000e98    000000e8     driverlib.a : dl_timer.o (.text.DL_Timer_initTimerMode)
+                  00000f80    000000e8     libc.a : memory.c.obj (.text.free)
+                  00001068    000000e0            : setvbuf.c.obj (.text.setvbuf)
+                  00001148    000000b2     MSPM0G_Library.lib : SPI_Interface.o (.text.SPI_IRQ)
+                  000011fa    000000a4                        : UART_Interface.o (.text.UART_Interface_Start_Transmit)
+                  0000129e    000000a0                        : UART_Interface.o (.text.UART_Interface_Start_Receive)
+                  0000133e    0000009e     usb.o (.text.usb_cmd_data_setup)
+                  000013dc    0000009c     libc.a : fputc.c.obj (.text.fputc)
+                  00001478    0000009a            : memcpy16.S.obj (.text:memcpy)
+                  00001512    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
+                  00001514    00000098     delay_timer.o (.text.Delay_Timer_Initialize)
+                  000015ac    00000090     ti_msp_dl_config.o (.text.SYSCFG_DL_UART_0_init)
+                  0000163c    00000088     MSPM0G_Library.lib : SPI_Interface.o (.text.SPI_Initialize)
+                  000016c4    00000088     usb.o (.text.usb_init)
+                  0000174c    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
+                  00001750    00000088            : strcmp-armv6m.S.obj (.text:strcmp)
+                  000017d8    0000007c            : fclose.c.obj (.text.__TI_closefile)
+                  00001854    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
+                  000018d0    00000078     MSPM0G_Library.lib : UART_Interface.o (.text.UART_rxDMA_Initialize)
+                  00001948    00000074                        : UART_Interface.o (.text.UART_txDMA_Initialize)
+                  000019bc    00000074     relay.o (.text.relay_init_all)
+                  00001a30    00000070     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Initialize)
+                  00001aa0    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
+                  00001b0c    0000006c                : hostrename.c.obj (.text.HOSTrename)
+                  00001b78    0000006c     ti_msp_dl_config.o (.text.SYSCFG_DL_GPIO_init)
+                  00001be4    0000006c     libc.a : fseek.c.obj (.text.fseeko)
+                  00001c50    0000006c            : getdevice.c.obj (.text.getdevice)
+                  00001cbc    0000006c     MSPM0G_Library.lib : UART_Target.o (.text.targetRxInProgressCb)
+                  00001d28    00000064                        : UART_Target.o (.text.UART_Target_AssignCallBacks)
+                  00001d8c    00000064     libc.a : _io_perm.c.obj (.text.__TI_wrt_ok)
+                  00001df0    00000064            : memory.c.obj (.text.split)
+                  00001e54    00000062            : memset16.S.obj (.text:memset)
+                  00001eb6    00000002            : _lock.c.obj (.text._nop)
+                  00001eb8    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
+                  00001f18    0000005c     libc.a : printf.c.obj (.text.printf)
+                  00001f74    0000005a     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Time_Set)
+                  00001fce    00000002     --HOLE-- [fill = 0]
+                  00001fd0    00000058     libsysbm.a : hostread.c.obj (.text.HOSTread)
+                  00002028    00000058                : hostwrite.c.obj (.text.HOSTwrite)
+                  00002080    00000058     ti_msp_dl_config.o (.text.SYSCFG_DL_SPI_0_init)
+                  000020d8    00000054     driverlib.a : dl_uart.o (.text.DL_UART_drainRXFIFO)
+                  0000212c    00000054                 : dl_uart.o (.text.DL_UART_fillTXFIFO)
+                  00002180    00000054     ti_msp_dl_config.o (.text.SYSCFG_DL_initPower)
+                  000021d4    00000054     app.o (.text.app_init)
+                  00002228    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
+                  0000227a    00000002     --HOLE-- [fill = 0]
+                  0000227c    00000050     libsysbm.a : close.c.obj (.text.close)
+                  000022cc    0000004c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Receive)
+                  00002318    00000048     driverlib.a : dl_uart.o (.text.DL_UART_init)
+                  00002360    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
+                  000023a8    00000048                : hostunlink.c.obj (.text.HOSTunlink)
+                  000023f0    00000048     libc.a : strtok.c.obj (.text.strtok)
+                  00002438    00000044     driverlib.a : dl_spi.o (.text.DL_SPI_init)
+                  0000247c    00000040     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_init)
+                  000024bc    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
+                  000024fc    0000003c     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_0_init)
+                  00002538    0000003c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_Transmit)
+                  00002574    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
+                  000025b0    00000038     MSPM0G_Library.lib : UART_Interface.o (.text.DL_DMA_setTrigger)
+                  000025e8    00000038     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_2_init)
+                  00002620    00000036     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_Start)
+                  00002656    00000036                        : UART_Interface.o (.text.UART_Interface_Stop_Receive)
+                  0000268c    00000034                        : UART_Interface.o (.text.DL_DMA_configMode)
+                  000026c0    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
+                  000026f4    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
+                  00002728    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
+                  0000275c    00000034     libc.a : exit.c.obj (.text.exit)
+                  00002790    00000034            : getdevice.c.obj (.text.finddevice)
+                  000027c4    00000034     MSPM0G_Library.lib : UART_Target.o (.text.timerCallback)
+                  000027f8    00000032                        : UART_Interface.o (.text.DL_DMA_setDestWidth)
+                  0000282a    00000030                        : UART_Interface.o (.text.DL_DMA_setDestIncrement)
+                  0000285a    00000030                        : UART_Interface.o (.text.DL_DMA_setSrcWidth)
+                  0000288a    00000002     --HOLE-- [fill = 0]
+                  0000288c    00000030                        : UART_Interface.o (.text.DL_DMA_setTransferSize)
+                  000028bc    00000030     led.o (.text.led_off)
+                  000028ec    00000030     led.o (.text.led_on)
+                  0000291c    00000030     MSPM0G_Library.lib : UART_Target.o (.text.targetRxDoneCb)
+                  0000294c    00000030                        : UART_Target.o (.text.targetTxDoneCb)
+                  0000297c    0000002e                        : UART_Interface.o (.text.DL_DMA_setSrcIncrement)
+                  000029aa    00000002     --HOLE-- [fill = 0]
+                  000029ac    0000002c                        : SPI_Interface.o (.text.__NVIC_ClearPendingIRQ)
+                  000029d8    0000002c                        : Timer_Timeout.o (.text.__NVIC_ClearPendingIRQ)
+                  00002a04    0000002c                        : UART_Interface.o (.text.__NVIC_ClearPendingIRQ)
+                  00002a30    0000002c                        : SPI_Interface.o (.text.__NVIC_EnableIRQ)
+                  00002a5c    0000002c                        : Timer_Timeout.o (.text.__NVIC_EnableIRQ)
+                  00002a88    0000002c                        : UART_Interface.o (.text.__NVIC_EnableIRQ)
+                  00002ab4    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
+                  00002ae0    0000002a     MSPM0G_Library.lib : Timer_Timeout.o (.text.Timer_Timeout_IRQ)
+                  00002b0a    0000002a                        : Timer_Timeout.o (.text.Timer_Timeout_reStart)
+                  00002b34    00000028                        : Timer_Timeout.o (.text.DL_Common_updateReg)
+                  00002b5c    00000028                        : UART_Interface.o (.text.DL_Common_updateReg)
+                  00002b84    00000028                        : UART_Interface.o (.text.DL_DMA_setDestAddr)
+                  00002bac    00000028                        : UART_Interface.o (.text.DL_DMA_setSrcAddr)
+                  00002bd4    00000028     adc.o (.text.Max5719GSD_init)
+                  00002bfc    00000028     libc.a : memory.c.obj (.text.free_list_insert)
+                  00002c24    00000028     libsysbm.a : lseek.c.obj (.text.lseek)
+                  00002c4c    00000028     MSPM0G_Library.lib : UART_Target.o (.text.targetTxInProgressCb)
+                  00002c74    00000028     libsysbm.a : write.c.obj (.text.write)
+                  00002c9c    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
+                  00002cc4    00000026     MSPM0G_Library.lib : UART_Interface.o (.text.DL_DMA_disableChannel)
+                  00002cea    00000026                        : UART_Interface.o (.text.DL_DMA_enableChannel)
+                  00002d10    00000026     libc.a : strspn.c.obj (.text.strspn)
+                  00002d36    00000002     --HOLE-- [fill = 0]
+                  00002d38    00000024     main.o (.text.main)
+                  00002d5c    00000024     libc.a : strcspn.c.obj (.text.strcspn)
+                  00002d80    00000022            : memccpy.c.obj (.text.memccpy)
+                  00002da2    00000002     --HOLE-- [fill = 0]
+                  00002da4    00000020     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_setCounterValueAfterEnable)
+                  00002dc4    00000020     ti_msp_dl_config.o (.text.SYSCFG_DL_init)
+                  00002de4    0000001c     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_disableInterrupt)
+                  00002e00    0000001c                        : Timer_Timeout.o (.text.DL_Timer_enableInterrupt)
+                  00002e1c    0000001c     driverlib.a : dl_timer.o (.text.DL_Timer_setClockConfig)
+                  00002e38    0000001c     delay_timer.o (.text.Delay_Timer_Get)
+                  00002e54    0000001c     MSPM0G_Library.lib : UART_Target.o (.text.UART_Target_getState)
+                  00002e70    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
+                  00002e8c    00000018     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_clearInterruptStatus)
+                  00002ea4    00000018                        : Timer_Timeout.o (.text.DL_Timer_setLoadValue)
+                  00002ebc    00000018                        : Timer_Timeout.o (.text.DL_Timer_startCounter)
+                  00002ed4    00000018                        : Timer_Timeout.o (.text.DL_Timer_stopCounter)
+                  00002eec    00000018     led.o (.text.led_init)
+                  00002f04    00000016     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_transmitData16)
+                  00002f1a    00000016     delay_timer.o (.text.Delay_Timer_IRQ)
+                  00002f30    00000014     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_receiveData16)
+                  00002f44    00000014     delay_timer.o (.text.Delay_Timer_Start)
+                  00002f58    00000012     MSPM0G_Library.lib : SPI_Interface.o (.text.DL_SPI_getPendingInterrupt)
+                  00002f6a    00000012     driverlib.a : dl_spi.o (.text.DL_SPI_setClockConfig)
+                  00002f7c    00000012     MSPM0G_Library.lib : Timer_Timeout.o (.text.DL_Timer_getPendingInterrupt)
+                  00002f8e    00000012                        : UART_Interface.o (.text.DL_UART_getPendingInterrupt)
+                  00002fa0    00000012     driverlib.a : dl_uart.o (.text.DL_UART_setClockConfig)
+                  00002fb2    00000012     libc.a : copy_decompress_none.c.obj (.text:decompress:none)
+                  00002fc4    00000010     app.o (.text.SPI0_IRQHandler)
+                  00002fd4    00000010     app.o (.text.TIMA0_IRQHandler)
+                  00002fe4    00000010     app.o (.text.TIMG7_IRQHandler)
+                  00002ff4    00000010     app.o (.text.UART0_IRQHandler)
+                  00003004    00000010     MSPM0G_Library.lib : UART_Interface.o (.text.defaultUartCallBack)
+                  00003014    00000010                        : UART_Interface.o (.text.defaultUartInprogressCallback)
+                  00003024    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
+                  00003034    0000000e            : memory.c.obj (.text.OUTLINED_FUNCTION_0)
+                  00003042    00000002     --HOLE-- [fill = 0]
+                  00003044    0000000e     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memset)
+                  00003052    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
+                  00003060    0000000e     libc.a : _printfi.c.obj (.text.strlen)
+                  0000306e    0000000e     libsysbm.a : hostrename.c.obj (.text.strlen)
+                  0000307c    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
+                  00003088    0000000c     MSPM0G_Library.lib : Timer_Timeout.o (.text.defaultTimerSingleTriggerCB)
+                  00003094    0000000c     libc.a : memory.c.obj (.text.malloc)
+                  000030a0    0000000c     MSPM0G_Library.lib : SPI_Interface.o (.text.noActionSPIInterface)
+                  000030ac    0000000a     driverlib.a : dl_common.o (.text.DL_Common_delayCycles)
+                  000030b6    00000002     --HOLE-- [fill = 0]
+                  000030b8    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
+                  000030c0    00000008     libc.a : printf.c.obj (.text._outc)
+                  000030c8    00000008            : printf.c.obj (.text._outs)
+                  000030d0    00000008            : fseek.c.obj (.text.fseek)
+                  000030d8    00000008     libsysbm.a : remove.c.obj (.text.remove)
+                  000030e0    00000004     startup_mspm0g350x_ticlang.o (.text.Reset_Handler)
+                  000030e4    00000004     libc.a : exit.c.obj (.text:abort)
+                  000030e8    00000008     --HOLE-- [fill = 0]
 
-.cinit     0    00001dc8    00000018     
-                  00001dc8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00001dd0    00000004     (__TI_handler_table)
-                  00001dd4    00000008     (__TI_cinit_table)
-                  00001ddc    00000004     --HOLE-- [fill = 0]
+.cinit     0    00003180    00000090     
+                  00003180    00000067     (.cinit..data.load) [load image, compression = lzss]
+                  000031e7    00000001     --HOLE-- [fill = 0]
+                  000031e8    0000000c     (__TI_handler_table)
+                  000031f4    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000031fc    00000010     (__TI_cinit_table)
+                  0000320c    00000004     --HOLE-- [fill = 0]
 
-.rodata    0    00001d58    00000070     
-                  00001d58    00000014     ti_msp_dl_config.o (.rodata.gTIMER_0TimerConfig)
-                  00001d6c    00000014     ti_msp_dl_config.o (.rodata.gTIMER_2TimerConfig)
-                  00001d80    00000012     usb.o (.rodata.invalid_cmd)
-                  00001d92    0000000a     ti_msp_dl_config.o (.rodata.gSPI_0_config)
-                  00001d9c    0000000a     ti_msp_dl_config.o (.rodata.gUART_0Config)
-                  00001da6    00000008     app.o (.rodata.str1.91024950347392736991)
-                  00001dae    00000007     app.o (.rodata.str1.115467379878751397891)
-                  00001db5    00000003     ti_msp_dl_config.o (.rodata.gTIMER_0ClockConfig)
-                  00001db8    00000003     ti_msp_dl_config.o (.rodata.gTIMER_2ClockConfig)
-                  00001dbb    00000003     app.o (.rodata.str1.144966739553529159871)
-                  00001dbe    00000002     ti_msp_dl_config.o (.rodata.gSPI_0_clockConfig)
-                  00001dc0    00000002     ti_msp_dl_config.o (.rodata.gUART_0ClockConfig)
-                  00001dc2    00000006     --HOLE-- [fill = 0]
+.rodata    0    000030f0    00000090     
+                  000030f0    00000014     ti_msp_dl_config.o (.rodata.gTIMER_0TimerConfig)
+                  00003104    00000014     ti_msp_dl_config.o (.rodata.gTIMER_2TimerConfig)
+                  00003118    00000012     usb.o (.rodata.invalid_cmd)
+                  0000312a    00000011     libc.a : _printfi.c.obj (.rodata.str1.153638888446227384661)
+                  0000313b    00000010     usb.o (.rodata.str1.32134134362090754791)
+                  0000314b    00000001     --HOLE-- [fill = 0]
+                  0000314c    0000000a     ti_msp_dl_config.o (.rodata.gSPI_0_config)
+                  00003156    0000000a     ti_msp_dl_config.o (.rodata.gUART_0Config)
+                  00003160    00000008     app.o (.rodata.str1.91024950347392736991)
+                  00003168    00000007     app.o (.rodata.str1.115467379878751397891)
+                  0000316f    00000003     ti_msp_dl_config.o (.rodata.gTIMER_0ClockConfig)
+                  00003172    00000003     ti_msp_dl_config.o (.rodata.gTIMER_2ClockConfig)
+                  00003175    00000003     app.o (.rodata.str1.144966739553529159871)
+                  00003178    00000002     ti_msp_dl_config.o (.rodata.gSPI_0_clockConfig)
+                  0000317a    00000002     ti_msp_dl_config.o (.rodata.gUART_0ClockConfig)
+                  0000317c    00000002     dynamic_parser.o (.rodata.str1.24641456576799527221)
+                  0000317e    00000002     --HOLE-- [fill = 0]
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
 .binit     0    00000000    00000000     
 
-.bss       0    20200000    0000149b     UNINITIALIZED
+.bss       0    20200000    00001667     UNINITIALIZED
                   20200000    000013ac     (.common:USB_DATA)
-                  202013ac    00000048     (.common:glUartTarget)
-                  202013f4    00000034     (.common:USB_UART)
-                  20201428    00000024     (.common:ADC)
-                  2020144c    00000024     (.common:USB_BUFFER)
-                  20201470    00000024     (.common:USB_Timeout)
-                  20201494    00000004     (.common:executing_command)
-                  20201498    00000003     (.common:glUartTargetIndexFromTimerIndex)
+                  202013ac    00000120     libsysbm.a : trgmsg.c.obj (.bss:_CIOBUF_)
+                  202014cc    000000a0     libc.a : defs.c.obj (.bss.__TI_tmpnams)
+                  2020156c    00000048     (.common:glUartTarget)
+                  202015b4    00000034     (.common:USB_UART)
+                  202015e8    00000024     (.common:ADC)
+                  2020160c    00000024     (.common:USB_BUFFER)
+                  20201630    00000024     (.common:USB_Timeout)
+                  20201654    00000008     libsysbm.a : hostopen.c.obj (.bss.parmbuf)
+                  2020165c    00000004     libc.a : memory.c.obj (.bss.sys_free)
+                  20201660    00000004     (.common:executing_command)
+                  20201664    00000003     (.common:glUartTargetIndexFromTimerIndex)
+
+.sysmem    0    20201668    00000800     UNINITIALIZED
+                  20201668    00000010     libc.a : memory.c.obj (.sysmem)
+                  20201678    000007f0     --HOLE--
+
+.data      0    20201e68    000001d1     UNINITIALIZED
+                  20201e68    000000f0     libc.a : defs.c.obj (.data._ftable)
+                  20201f58    00000078     libsysbm.a : host_device.c.obj (.data._device)
+                  20201fd0    00000050                : host_device.c.obj (.data._stream)
+                  20202020    00000008     libc.a : exit.c.obj (.data..L_MergedGlobals)
+                  20202028    00000004            : defs.c.obj (.data.__TI_ft_end)
+                  2020202c    00000004            : _lock.c.obj (.data._lock)
+                  20202030    00000004            : _lock.c.obj (.data._unlock)
+                  20202034    00000004            : strtok.c.obj (.data.last_end)
+                  20202038    00000001            : memory.c.obj (.data.memory_is_initialized)
 
 .stack     0    20207e00    00000200     UNINITIALIZED
                   20207e00    00000004     libc.a : boot_cortex_m.c.obj (.stack)
@@ -203,159 +284,213 @@ __llvm_prf_bits
 
 MODULE SUMMARY
 
-       Module                         code   ro data   rw data
-       ------                         ----   -------   -------
+       Module                         code    ro data   rw data
+       ------                         ----    -------   -------
     .\
-       adc.o                          40     0         5200   
-       usb.o                          746    18        0      
-       ti_msp_dl_config.o             636    70        0      
-       delay_timer.o                  222    0         0      
-       startup_mspm0g350x_ticlang.o   6      192       0      
-       app.o                          148    18        0      
-       led.o                          120    0         0      
-       relay.o                        116    0         0      
-       main.o                         36     0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         2070   298       5200   
-                                                              
+       adc.o                          40      0         5200   
+       usb.o                          866     34        0      
+       ti_msp_dl_config.o             636     70        0      
+       dynamic_parser.o               688     2         0      
+       delay_timer.o                  222     0         0      
+       startup_mspm0g350x_ticlang.o   6       192       0      
+       app.o                          148     18        0      
+       led.o                          120     0         0      
+       relay.o                        116     0         0      
+       main.o                         36      0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         2878    316       5200   
+                                                               
     C:/ti/mspm0_sdk_2_00_00_03/source/ti/driverlib/lib/ticlang/m0p/mspm0g1x0x_g3x0x/driverlib.a
-       dl_timer.o                     260    0         0      
-       dl_uart.o                      258    0         0      
-       dl_spi.o                       86     0         0      
-       dl_common.o                    10     0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         614    0         0      
-                                                              
+       dl_timer.o                     260     0         0      
+       dl_uart.o                      258     0         0      
+       dl_spi.o                       86      0         0      
+       dl_common.o                    10      0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         614     0         0      
+                                                               
     C:\ti\ccstheia151\ccs\tools\compiler\ti-cgt-armllvm_4.0.0.LTS\lib\armv6m-ti-none-eabi/c/libc.a
-       memcpy16.S.obj                 154    0         0      
-       memset16.S.obj                 98     0         0      
-       autoinit.c.obj                 60     0         0      
-       boot_cortex_m.c.obj            40     0         0      
-       copy_zero_init.c.obj           16     0         0      
-       exit.c.obj                     4      0         0      
-       pre_init.c.obj                 4      0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         376    0         0      
-                                                              
+       memory.c.obj                   702     0         5      
+       _printfi.c.obj                 658     17        0      
+       defs.c.obj                     0       0         404    
+       fputs.c.obj                    248     0         0      
+       setvbuf.c.obj                  224     0         0      
+       getdevice.c.obj                160     0         0      
+       fputc.c.obj                    156     0         0      
+       memcpy16.S.obj                 154     0         0      
+       strcmp-armv6m.S.obj            136     0         0      
+       copy_decompress_lzss.c.obj     124     0         0      
+       fclose.c.obj                   124     0         0      
+       fseek.c.obj                    116     0         0      
+       printf.c.obj                   108     0         0      
+       _io_perm.c.obj                 100     0         0      
+       memset16.S.obj                 98      0         0      
+       fflush.c.obj                   82      0         0      
+       strtok.c.obj                   72      0         4      
+       exit.c.obj                     56      0         8      
+       autoinit.c.obj                 60      0         0      
+       fopen.c.obj                    52      0         0      
+       boot_cortex_m.c.obj            40      0         0      
+       strspn.c.obj                   38      0         0      
+       strcspn.c.obj                  36      0         0      
+       memccpy.c.obj                  34      0         0      
+       copy_decompress_none.c.obj     18      0         0      
+       copy_zero_init.c.obj           16      0         0      
+       _lock.c.obj                    2       0         8      
+       pre_init.c.obj                 4       0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         3618    17        429    
+                                                               
+    C:\ti\ccstheia151\ccs\tools\compiler\ti-cgt-armllvm_4.0.0.LTS\lib\armv6m-ti-none-eabi/c/libsysbm.a
+       trgmsg.c.obj                   104     0         288    
+       host_device.c.obj              0       0         200    
+       hostrename.c.obj               136     0         0      
+       hostlseek.c.obj                108     0         0      
+       hostopen.c.obj                 96      0         8      
+       hostread.c.obj                 88      0         0      
+       hostwrite.c.obj                88      0         0      
+       close.c.obj                    80      0         0      
+       hostclose.c.obj                72      0         0      
+       hostunlink.c.obj               72      0         0      
+       unlink.c.obj                   44      0         0      
+       lseek.c.obj                    40      0         0      
+       write.c.obj                    40      0         0      
+       remove.c.obj                   8       0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         976     0         496    
+                                                               
     C:\ti\ccstheia151\ccs\tools\compiler\ti-cgt-armllvm_4.0.0.LTS\lib\armv6m-ti-none-eabi/libclang_rt.builtins.a
-       aeabi_uidivmod.S.obj           64     0         0      
-       aeabi_memset.S.obj             12     0         0      
-       aeabi_memcpy.S.obj             8      0         0      
-       aeabi_div0.c.obj               2      0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         86     0         0      
-                                                              
+       aeabi_uidivmod.S.obj           64      0         0      
+       aeabi_memset.S.obj             26      0         0      
+       aeabi_memcpy.S.obj             8       0         0      
+       aeabi_div0.c.obj               2       0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         100     0         0      
+                                                               
     D:/Cardinal Test_Calibration_Board/MSPM0G_Library/Debug/MSPM0G_Library.lib
-       UART_Interface.o               2154   0         0      
-       Timer_Timeout.o                826    0         0      
-       UART_Target.o                  712    0         75     
-       SPI_Interface.o                474    0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         4166   0         75     
-                                                              
-       Stack:                         0      0         512    
-       Linker Generated:              0      20        0      
-    +--+------------------------------+------+---------+---------+
-       Grand Total:                   7312   318       5787   
+       UART_Interface.o               2154    0         0      
+       Timer_Timeout.o                826     0         0      
+       UART_Target.o                  672     0         75     
+       SPI_Interface.o                474     0         0      
+    +--+------------------------------+-------+---------+---------+
+       Total:                         4126    0         75     
+                                                               
+       Heap:                          0       0         2048   
+       Stack:                         0       0         512    
+       Linker Generated:              0       139       0      
+    +--+------------------------------+-------+---------+---------+
+       Grand Total:                   12312   472       8760   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00001dd4 records: 1, size/record: 8, table size: 8
-	.bss: load addr=00001dc8, load size=00000008 bytes, run addr=20200000, run size=0000149b bytes, compression=zero_init
+__TI_cinit_table @ 000031fc records: 2, size/record: 8, table size: 16
+	.data: load addr=00003180, load size=00000067 bytes, run addr=20201e68, run size=000001d1 bytes, compression=lzss
+	.bss: load addr=000031f4, load size=00000008 bytes, run addr=20200000, run size=00001667 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00001dd0 records: 1, size/record: 4, table size: 4
-	index: 0, handler: __TI_zero_init
+__TI_handler_table @ 000031e8 records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_lzss
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
 address   name                           
 -------   ----                           
-20201428  ADC                            
-0000029f  ADC0_IRQHandler                
-0000029f  ADC1_IRQHandler                
-0000029f  AES_IRQHandler                 
-00001d54  C$$EXIT                        
-0000029f  CANFD0_IRQHandler              
-0000029f  DAC0_IRQHandler                
-00001d39  DL_Common_delayCycles          
-00001335  DL_SPI_init                    
-00001c5b  DL_SPI_setClockConfig          
-00000629  DL_Timer_initTimerMode         
-00001b29  DL_Timer_setClockConfig        
-00001151  DL_UART_drainRXFIFO            
-000011a5  DL_UART_fillTXFIFO             
-000012ed  DL_UART_init                   
-00001c91  DL_UART_setClockConfig         
-0000029f  DMA_IRQHandler                 
-0000029f  Default_Handler                
-00001b45  Delay_Timer_Get                
-00001c0b  Delay_Timer_IRQ                
-00000b01  Delay_Timer_Initialize         
-00001c35  Delay_Timer_Start              
-0000029f  GROUP0_IRQHandler              
-0000029f  GROUP1_IRQHandler              
-0000029f  HardFault_Handler              
-0000029f  I2C0_IRQHandler                
-0000029f  I2C1_IRQHandler                
-000019a1  Max5719GSD_init                
-0000029f  NMI_Handler                    
-0000029f  PendSV_Handler                 
-0000029f  RTC_IRQHandler                 
-00001d4d  Reset_Handler                  
-00001ca5  SPI0_IRQHandler                
-0000029f  SPI1_IRQHandler                
-000007d1  SPI_IRQ                        
-00000c29  SPI_Initialize                 
-0000029f  SVC_Handler                    
-00000f01  SYSCFG_DL_GPIO_init            
-000010f9  SYSCFG_DL_SPI_0_init           
-00001379  SYSCFG_DL_SYSCTL_init          
-000013f9  SYSCFG_DL_TIMER_0_init         
-000014e5  SYSCFG_DL_TIMER_2_init         
-00000b99  SYSCFG_DL_UART_0_init          
-00001ad1  SYSCFG_DL_init                 
-000011f9  SYSCFG_DL_initPower            
-0000029f  SysTick_Handler                
-00001cb5  TIMA0_IRQHandler               
-0000029f  TIMA1_IRQHandler               
-0000029f  TIMG0_IRQHandler               
-0000029f  TIMG12_IRQHandler              
-0000029f  TIMG6_IRQHandler               
-00001cc5  TIMG7_IRQHandler               
-0000029f  TIMG8_IRQHandler               
-000018ad  Timer_Timeout_IRQ              
-00000529  Timer_Timeout_Inialize         
-0000151d  Timer_Timeout_Start            
-0000109f  Timer_Timeout_Time_Set         
-000018d7  Timer_Timeout_reStart          
-00001cd5  UART0_IRQHandler               
-0000029f  UART1_IRQHandler               
-0000029f  UART2_IRQHandler               
-0000029f  UART3_IRQHandler               
-000000c1  UART_Interface_IRQ             
-000002a1  UART_Interface_Initialize      
-00000927  UART_Interface_Start_Receive   
-00000883  UART_Interface_Start_Transmit  
-00001553  UART_Interface_Stop_Receive    
-00000fd9  UART_Target_AssignCallBacks    
-00000e91  UART_Target_Initialize         
-000012a1  UART_Target_Receive            
-00001435  UART_Target_Transmit           
-00001b61  UART_Target_getState           
-000019c9  UART_Target_setState           
-00000d31  UART_rxDMA_Initialize          
-00000da9  UART_txDMA_Initialize          
-2020144c  USB_BUFFER                     
+202015e8  ADC                            
+000007d3  ADC0_IRQHandler                
+000007d3  ADC1_IRQHandler                
+000007d3  AES_IRQHandler                 
+000030e4  C$$EXIT                        
+00002755  C$$IO$$                        
+000007d3  CANFD0_IRQHandler              
+000007d3  DAC0_IRQHandler                
+000030ad  DL_Common_delayCycles          
+00002439  DL_SPI_init                    
+00002f6b  DL_SPI_setClockConfig          
+00000e99  DL_Timer_initTimerMode         
+00002e1d  DL_Timer_setClockConfig        
+000020d9  DL_UART_drainRXFIFO            
+0000212d  DL_UART_fillTXFIFO             
+00002319  DL_UART_init                   
+00002fa1  DL_UART_setClockConfig         
+000007d3  DMA_IRQHandler                 
+000007d3  Default_Handler                
+00002e39  Delay_Timer_Get                
+00002f1b  Delay_Timer_IRQ                
+00001515  Delay_Timer_Initialize         
+00002f45  Delay_Timer_Start              
+000007d3  GROUP0_IRQHandler              
+000007d3  GROUP1_IRQHandler              
+00002361  HOSTclose                      
+00001aa1  HOSTlseek                      
+00001eb9  HOSTopen                       
+00001fd1  HOSTread                       
+00001b0d  HOSTrename                     
+000023a9  HOSTunlink                     
+00002029  HOSTwrite                      
+000007d3  HardFault_Handler              
+000007d3  I2C0_IRQHandler                
+000007d3  I2C1_IRQHandler                
+00002bd5  Max5719GSD_init                
+000007d3  NMI_Handler                    
+000007d3  PendSV_Handler                 
+000007d3  RTC_IRQHandler                 
+000030e1  Reset_Handler                  
+00002fc5  SPI0_IRQHandler                
+000007d3  SPI1_IRQHandler                
+00001149  SPI_IRQ                        
+0000163d  SPI_Initialize                 
+000007d3  SVC_Handler                    
+00001b79  SYSCFG_DL_GPIO_init            
+00002081  SYSCFG_DL_SPI_0_init           
+0000247d  SYSCFG_DL_SYSCTL_init          
+000024fd  SYSCFG_DL_TIMER_0_init         
+000025e9  SYSCFG_DL_TIMER_2_init         
+000015ad  SYSCFG_DL_UART_0_init          
+00002dc5  SYSCFG_DL_init                 
+00002181  SYSCFG_DL_initPower            
+000007d3  SysTick_Handler                
+00002fd5  TIMA0_IRQHandler               
+000007d3  TIMA1_IRQHandler               
+000007d3  TIMG0_IRQHandler               
+000007d3  TIMG12_IRQHandler              
+000007d3  TIMG6_IRQHandler               
+00002fe5  TIMG7_IRQHandler               
+000007d3  TIMG8_IRQHandler               
+00002ae1  Timer_Timeout_IRQ              
+00000ca1  Timer_Timeout_Inialize         
+00002621  Timer_Timeout_Start            
+00001f75  Timer_Timeout_Time_Set         
+00002b0b  Timer_Timeout_reStart          
+00002ff5  UART0_IRQHandler               
+000007d3  UART1_IRQHandler               
+000007d3  UART2_IRQHandler               
+000007d3  UART3_IRQHandler               
+000005f5  UART_Interface_IRQ             
+000007d5  UART_Interface_Initialize      
+0000129f  UART_Interface_Start_Receive   
+000011fb  UART_Interface_Start_Transmit  
+00002657  UART_Interface_Stop_Receive    
+00001d29  UART_Target_AssignCallBacks    
+00001a31  UART_Target_Initialize         
+000022cd  UART_Target_Receive            
+00002539  UART_Target_Transmit           
+00002e55  UART_Target_getState           
+000018d1  UART_rxDMA_Initialize          
+00001949  UART_txDMA_Initialize          
+2020160c  USB_BUFFER                     
 20200000  USB_DATA                       
-20201470  USB_Timeout                    
-202013f4  USB_UART                       
+20201630  USB_Timeout                    
+202015b4  USB_UART                       
+202013ac  _CIOBUF_                       
+202013ac  __CIOBUF_                      
 20208000  __STACK_END                    
 00000200  __STACK_SIZE                   
+00000800  __SYSMEM_SIZE                  
 00000000  __TI_ATRegion0_region_sz       
 00000000  __TI_ATRegion0_src_addr        
 00000000  __TI_ATRegion0_trg_addr        
@@ -365,26 +500,42 @@ address   name
 00000000  __TI_ATRegion2_region_sz       
 00000000  __TI_ATRegion2_src_addr        
 00000000  __TI_ATRegion2_trg_addr        
-00001dd4  __TI_CINIT_Base                
-00001ddc  __TI_CINIT_Limit               
-00001ddc  __TI_CINIT_Warm                
-00001dd0  __TI_Handler_Table_Base        
-00001dd4  __TI_Handler_Table_Limit       
-00001471  __TI_auto_init_nobinit_nopinit 
+000031fc  __TI_CINIT_Base                
+0000320c  __TI_CINIT_Limit               
+0000320c  __TI_CINIT_Warm                
+000031e8  __TI_Handler_Table_Base        
+000031f4  __TI_Handler_Table_Limit       
+00002575  __TI_auto_init_nobinit_nopinit 
+000026c1  __TI_cleanup                   
+20202020  __TI_cleanup_ptr               
+000017d9  __TI_closefile                 
+00001855  __TI_decompress_lzss           
+00002fb3  __TI_decompress_none           
+00002229  __TI_doflush                   
+20202024  __TI_dtors_ptr                 
+20202028  __TI_ft_end                    
 ffffffff  __TI_pprof_out_hndl            
+00000371  __TI_printfi_minimal           
 ffffffff  __TI_prof_data_size            
 ffffffff  __TI_prof_data_start           
+000026f5  __TI_readmsg                   
 00000000  __TI_static_base__             
-00001d05  __TI_zero_init                 
-00000aff  __aeabi_idiv0                  
-00001d15  __aeabi_memclr                 
-00001d15  __aeabi_memclr4                
-00001d15  __aeabi_memclr8                
-00001d45  __aeabi_memcpy                 
-00001d45  __aeabi_memcpy4                
-00001d45  __aeabi_memcpy8                
-000013b9  __aeabi_uidiv                  
-000013b9  __aeabi_uidivmod               
+202014cc  __TI_tmpnams                   
+00002729  __TI_writemsg                  
+00001d8d  __TI_wrt_ok                    
+00003025  __TI_zero_init                 
+00001513  __aeabi_idiv0                  
+0000307d  __aeabi_memclr                 
+0000307d  __aeabi_memclr4                
+0000307d  __aeabi_memclr8                
+000030b9  __aeabi_memcpy                 
+000030b9  __aeabi_memcpy4                
+000030b9  __aeabi_memcpy8                
+00003045  __aeabi_memset                 
+00003045  __aeabi_memset4                
+00003045  __aeabi_memset8                
+000024bd  __aeabi_uidiv                  
+000024bd  __aeabi_uidivmod               
 ffffffff  __binit__                      
 UNDEFED   __mpu_init                     
 20207e00  __stack                        
@@ -392,36 +543,68 @@ UNDEFED   __mpu_init
 20200000  __start___llvm_prf_cnts        
 20200000  __stop___llvm_prf_bits         
 20200000  __stop___llvm_prf_cnts         
-00001a19  _c_int00_noargs                
+00002c9d  _c_int00_noargs                
+20201f58  _device                        
+20201e68  _ftable                        
+2020202c  _lock                          
+00001eb7  _nop                           
+20201fd0  _stream                        
+20201668  _sys_memory                    
 UNDEFED   _system_post_cinit             
-00001d51  _system_pre_init               
-00001d55  abort                          
-0000124d  app_init                       
+0000174d  _system_pre_init               
+20202030  _unlock                        
+000030e5  abort                          
+00000b8d  aligned_alloc                  
+000021d5  app_init                       
 ffffffff  binit                          
-00001d21  defaultTimerSingleTriggerCB    
-00001ce5  defaultUartCallBack            
-00001cf5  defaultUartInprogressCallback  
-20201494  executing_command              
-202013ac  glUartTarget                   
-20201498  glUartTargetIndexFromTimerIndex
+0000227d  close                          
+00003089  defaultTimerSingleTriggerCB    
+00003005  defaultUartCallBack            
+00003015  defaultUartInprogressCallback  
+000000c1  dynamic_parse                  
+20201660  executing_command              
+0000275d  exit                           
+00002791  finddevice                     
+000013dd  fputc                          
+00000da1  fputs                          
+00000f81  free                           
+000030d1  fseek                          
+00001be5  fseeko                         
+00001c51  getdevice                      
+2020156c  glUartTarget                   
+20201664  glUartTargetIndexFromTimerIndex
 00000000  interruptVectors               
-00001bdd  led_init                       
-000016b5  led_off                        
-000016e5  led_on                         
-00001a8d  main                           
-00000a65  memcpy                         
-0000103d  memset                         
-00001d2d  noActionSPIInterface           
-00000711  process_usb_command            
-00000e1d  relay_init_all                 
-00001715  targetRxDoneCb                 
-00000f6d  targetRxInProgressCb           
-00001745  targetTxDoneCb                 
-000019f1  targetTxInProgressCb           
-000015bd  timerCallback                  
-000009c7  usb_cmd_data_setup             
-0000041d  usb_fsm                        
-00000cb1  usb_init                       
+00002eed  led_init                       
+000028bd  led_off                        
+000028ed  led_on                         
+00002c25  lseek                          
+00002d39  main                           
+00003095  malloc                         
+00000b8d  memalign                       
+00002d81  memccpy                        
+00001479  memcpy                         
+00001e55  memset                         
+000030a1  noActionSPIInterface           
+20201654  parmbuf                        
+00001f19  printf                         
+00000951  process_usb_command            
+000019bd  relay_init_all                 
+000030d9  remove                         
+00001069  setvbuf                        
+00001751  strcmp                         
+00002d5d  strcspn                        
+00002d11  strspn                         
+000023f1  strtok                         
+0000291d  targetRxDoneCb                 
+00001cbd  targetRxInProgressCb           
+0000294d  targetTxDoneCb                 
+00002c4d  targetTxInProgressCb           
+000027c5  timerCallback                  
+00002ab5  unlink                         
+0000133f  usb_cmd_data_setup             
+00000a75  usb_fsm                        
+000016c5  usb_init                       
+00002c75  write                          
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -439,133 +622,191 @@ address   name
 00000000  __TI_ATRegion2_trg_addr        
 00000000  __TI_static_base__             
 00000000  interruptVectors               
-000000c1  UART_Interface_IRQ             
+000000c1  dynamic_parse                  
 00000200  __STACK_SIZE                   
-0000029f  ADC0_IRQHandler                
-0000029f  ADC1_IRQHandler                
-0000029f  AES_IRQHandler                 
-0000029f  CANFD0_IRQHandler              
-0000029f  DAC0_IRQHandler                
-0000029f  DMA_IRQHandler                 
-0000029f  Default_Handler                
-0000029f  GROUP0_IRQHandler              
-0000029f  GROUP1_IRQHandler              
-0000029f  HardFault_Handler              
-0000029f  I2C0_IRQHandler                
-0000029f  I2C1_IRQHandler                
-0000029f  NMI_Handler                    
-0000029f  PendSV_Handler                 
-0000029f  RTC_IRQHandler                 
-0000029f  SPI1_IRQHandler                
-0000029f  SVC_Handler                    
-0000029f  SysTick_Handler                
-0000029f  TIMA1_IRQHandler               
-0000029f  TIMG0_IRQHandler               
-0000029f  TIMG12_IRQHandler              
-0000029f  TIMG6_IRQHandler               
-0000029f  TIMG8_IRQHandler               
-0000029f  UART1_IRQHandler               
-0000029f  UART2_IRQHandler               
-0000029f  UART3_IRQHandler               
-000002a1  UART_Interface_Initialize      
-0000041d  usb_fsm                        
-00000529  Timer_Timeout_Inialize         
-00000629  DL_Timer_initTimerMode         
-00000711  process_usb_command            
-000007d1  SPI_IRQ                        
-00000883  UART_Interface_Start_Transmit  
-00000927  UART_Interface_Start_Receive   
-000009c7  usb_cmd_data_setup             
-00000a65  memcpy                         
-00000aff  __aeabi_idiv0                  
-00000b01  Delay_Timer_Initialize         
-00000b99  SYSCFG_DL_UART_0_init          
-00000c29  SPI_Initialize                 
-00000cb1  usb_init                       
-00000d31  UART_rxDMA_Initialize          
-00000da9  UART_txDMA_Initialize          
-00000e1d  relay_init_all                 
-00000e91  UART_Target_Initialize         
-00000f01  SYSCFG_DL_GPIO_init            
-00000f6d  targetRxInProgressCb           
-00000fd9  UART_Target_AssignCallBacks    
-0000103d  memset                         
-0000109f  Timer_Timeout_Time_Set         
-000010f9  SYSCFG_DL_SPI_0_init           
-00001151  DL_UART_drainRXFIFO            
-000011a5  DL_UART_fillTXFIFO             
-000011f9  SYSCFG_DL_initPower            
-0000124d  app_init                       
-000012a1  UART_Target_Receive            
-000012ed  DL_UART_init                   
-00001335  DL_SPI_init                    
-00001379  SYSCFG_DL_SYSCTL_init          
-000013b9  __aeabi_uidiv                  
-000013b9  __aeabi_uidivmod               
-000013f9  SYSCFG_DL_TIMER_0_init         
-00001435  UART_Target_Transmit           
-00001471  __TI_auto_init_nobinit_nopinit 
-000014e5  SYSCFG_DL_TIMER_2_init         
-0000151d  Timer_Timeout_Start            
-00001553  UART_Interface_Stop_Receive    
-000015bd  timerCallback                  
-000016b5  led_off                        
-000016e5  led_on                         
-00001715  targetRxDoneCb                 
-00001745  targetTxDoneCb                 
-000018ad  Timer_Timeout_IRQ              
-000018d7  Timer_Timeout_reStart          
-000019a1  Max5719GSD_init                
-000019c9  UART_Target_setState           
-000019f1  targetTxInProgressCb           
-00001a19  _c_int00_noargs                
-00001a8d  main                           
-00001ad1  SYSCFG_DL_init                 
-00001b29  DL_Timer_setClockConfig        
-00001b45  Delay_Timer_Get                
-00001b61  UART_Target_getState           
-00001bdd  led_init                       
-00001c0b  Delay_Timer_IRQ                
-00001c35  Delay_Timer_Start              
-00001c5b  DL_SPI_setClockConfig          
-00001c91  DL_UART_setClockConfig         
-00001ca5  SPI0_IRQHandler                
-00001cb5  TIMA0_IRQHandler               
-00001cc5  TIMG7_IRQHandler               
-00001cd5  UART0_IRQHandler               
-00001ce5  defaultUartCallBack            
-00001cf5  defaultUartInprogressCallback  
-00001d05  __TI_zero_init                 
-00001d15  __aeabi_memclr                 
-00001d15  __aeabi_memclr4                
-00001d15  __aeabi_memclr8                
-00001d21  defaultTimerSingleTriggerCB    
-00001d2d  noActionSPIInterface           
-00001d39  DL_Common_delayCycles          
-00001d45  __aeabi_memcpy                 
-00001d45  __aeabi_memcpy4                
-00001d45  __aeabi_memcpy8                
-00001d4d  Reset_Handler                  
-00001d51  _system_pre_init               
-00001d54  C$$EXIT                        
-00001d55  abort                          
-00001dd0  __TI_Handler_Table_Base        
-00001dd4  __TI_CINIT_Base                
-00001dd4  __TI_Handler_Table_Limit       
-00001ddc  __TI_CINIT_Limit               
-00001ddc  __TI_CINIT_Warm                
+00000371  __TI_printfi_minimal           
+000005f5  UART_Interface_IRQ             
+000007d3  ADC0_IRQHandler                
+000007d3  ADC1_IRQHandler                
+000007d3  AES_IRQHandler                 
+000007d3  CANFD0_IRQHandler              
+000007d3  DAC0_IRQHandler                
+000007d3  DMA_IRQHandler                 
+000007d3  Default_Handler                
+000007d3  GROUP0_IRQHandler              
+000007d3  GROUP1_IRQHandler              
+000007d3  HardFault_Handler              
+000007d3  I2C0_IRQHandler                
+000007d3  I2C1_IRQHandler                
+000007d3  NMI_Handler                    
+000007d3  PendSV_Handler                 
+000007d3  RTC_IRQHandler                 
+000007d3  SPI1_IRQHandler                
+000007d3  SVC_Handler                    
+000007d3  SysTick_Handler                
+000007d3  TIMA1_IRQHandler               
+000007d3  TIMG0_IRQHandler               
+000007d3  TIMG12_IRQHandler              
+000007d3  TIMG6_IRQHandler               
+000007d3  TIMG8_IRQHandler               
+000007d3  UART1_IRQHandler               
+000007d3  UART2_IRQHandler               
+000007d3  UART3_IRQHandler               
+000007d5  UART_Interface_Initialize      
+00000800  __SYSMEM_SIZE                  
+00000951  process_usb_command            
+00000a75  usb_fsm                        
+00000b8d  aligned_alloc                  
+00000b8d  memalign                       
+00000ca1  Timer_Timeout_Inialize         
+00000da1  fputs                          
+00000e99  DL_Timer_initTimerMode         
+00000f81  free                           
+00001069  setvbuf                        
+00001149  SPI_IRQ                        
+000011fb  UART_Interface_Start_Transmit  
+0000129f  UART_Interface_Start_Receive   
+0000133f  usb_cmd_data_setup             
+000013dd  fputc                          
+00001479  memcpy                         
+00001513  __aeabi_idiv0                  
+00001515  Delay_Timer_Initialize         
+000015ad  SYSCFG_DL_UART_0_init          
+0000163d  SPI_Initialize                 
+000016c5  usb_init                       
+0000174d  _system_pre_init               
+00001751  strcmp                         
+000017d9  __TI_closefile                 
+00001855  __TI_decompress_lzss           
+000018d1  UART_rxDMA_Initialize          
+00001949  UART_txDMA_Initialize          
+000019bd  relay_init_all                 
+00001a31  UART_Target_Initialize         
+00001aa1  HOSTlseek                      
+00001b0d  HOSTrename                     
+00001b79  SYSCFG_DL_GPIO_init            
+00001be5  fseeko                         
+00001c51  getdevice                      
+00001cbd  targetRxInProgressCb           
+00001d29  UART_Target_AssignCallBacks    
+00001d8d  __TI_wrt_ok                    
+00001e55  memset                         
+00001eb7  _nop                           
+00001eb9  HOSTopen                       
+00001f19  printf                         
+00001f75  Timer_Timeout_Time_Set         
+00001fd1  HOSTread                       
+00002029  HOSTwrite                      
+00002081  SYSCFG_DL_SPI_0_init           
+000020d9  DL_UART_drainRXFIFO            
+0000212d  DL_UART_fillTXFIFO             
+00002181  SYSCFG_DL_initPower            
+000021d5  app_init                       
+00002229  __TI_doflush                   
+0000227d  close                          
+000022cd  UART_Target_Receive            
+00002319  DL_UART_init                   
+00002361  HOSTclose                      
+000023a9  HOSTunlink                     
+000023f1  strtok                         
+00002439  DL_SPI_init                    
+0000247d  SYSCFG_DL_SYSCTL_init          
+000024bd  __aeabi_uidiv                  
+000024bd  __aeabi_uidivmod               
+000024fd  SYSCFG_DL_TIMER_0_init         
+00002539  UART_Target_Transmit           
+00002575  __TI_auto_init_nobinit_nopinit 
+000025e9  SYSCFG_DL_TIMER_2_init         
+00002621  Timer_Timeout_Start            
+00002657  UART_Interface_Stop_Receive    
+000026c1  __TI_cleanup                   
+000026f5  __TI_readmsg                   
+00002729  __TI_writemsg                  
+00002755  C$$IO$$                        
+0000275d  exit                           
+00002791  finddevice                     
+000027c5  timerCallback                  
+000028bd  led_off                        
+000028ed  led_on                         
+0000291d  targetRxDoneCb                 
+0000294d  targetTxDoneCb                 
+00002ab5  unlink                         
+00002ae1  Timer_Timeout_IRQ              
+00002b0b  Timer_Timeout_reStart          
+00002bd5  Max5719GSD_init                
+00002c25  lseek                          
+00002c4d  targetTxInProgressCb           
+00002c75  write                          
+00002c9d  _c_int00_noargs                
+00002d11  strspn                         
+00002d39  main                           
+00002d5d  strcspn                        
+00002d81  memccpy                        
+00002dc5  SYSCFG_DL_init                 
+00002e1d  DL_Timer_setClockConfig        
+00002e39  Delay_Timer_Get                
+00002e55  UART_Target_getState           
+00002eed  led_init                       
+00002f1b  Delay_Timer_IRQ                
+00002f45  Delay_Timer_Start              
+00002f6b  DL_SPI_setClockConfig          
+00002fa1  DL_UART_setClockConfig         
+00002fb3  __TI_decompress_none           
+00002fc5  SPI0_IRQHandler                
+00002fd5  TIMA0_IRQHandler               
+00002fe5  TIMG7_IRQHandler               
+00002ff5  UART0_IRQHandler               
+00003005  defaultUartCallBack            
+00003015  defaultUartInprogressCallback  
+00003025  __TI_zero_init                 
+00003045  __aeabi_memset                 
+00003045  __aeabi_memset4                
+00003045  __aeabi_memset8                
+0000307d  __aeabi_memclr                 
+0000307d  __aeabi_memclr4                
+0000307d  __aeabi_memclr8                
+00003089  defaultTimerSingleTriggerCB    
+00003095  malloc                         
+000030a1  noActionSPIInterface           
+000030ad  DL_Common_delayCycles          
+000030b9  __aeabi_memcpy                 
+000030b9  __aeabi_memcpy4                
+000030b9  __aeabi_memcpy8                
+000030d1  fseek                          
+000030d9  remove                         
+000030e1  Reset_Handler                  
+000030e4  C$$EXIT                        
+000030e5  abort                          
+000031e8  __TI_Handler_Table_Base        
+000031f4  __TI_Handler_Table_Limit       
+000031fc  __TI_CINIT_Base                
+0000320c  __TI_CINIT_Limit               
+0000320c  __TI_CINIT_Warm                
 20200000  USB_DATA                       
 20200000  __start___llvm_prf_bits        
 20200000  __start___llvm_prf_cnts        
 20200000  __stop___llvm_prf_bits         
 20200000  __stop___llvm_prf_cnts         
-202013ac  glUartTarget                   
-202013f4  USB_UART                       
-20201428  ADC                            
-2020144c  USB_BUFFER                     
-20201470  USB_Timeout                    
-20201494  executing_command              
-20201498  glUartTargetIndexFromTimerIndex
+202013ac  _CIOBUF_                       
+202013ac  __CIOBUF_                      
+202014cc  __TI_tmpnams                   
+2020156c  glUartTarget                   
+202015b4  USB_UART                       
+202015e8  ADC                            
+2020160c  USB_BUFFER                     
+20201630  USB_Timeout                    
+20201654  parmbuf                        
+20201660  executing_command              
+20201664  glUartTargetIndexFromTimerIndex
+20201668  _sys_memory                    
+20201e68  _ftable                        
+20201f58  _device                        
+20201fd0  _stream                        
+20202020  __TI_cleanup_ptr               
+20202024  __TI_dtors_ptr                 
+20202028  __TI_ft_end                    
+2020202c  _lock                          
+20202030  _unlock                        
 20207e00  __stack                        
 20208000  __STACK_END                    
 ffffffff  __TI_pprof_out_hndl            
@@ -576,4 +817,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                     
 UNDEFED   _system_post_cinit             
 
-[147 symbols]
+[205 symbols]

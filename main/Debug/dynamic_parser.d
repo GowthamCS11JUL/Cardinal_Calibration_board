@@ -1,6 +1,7 @@
 # FIXED
 
-relay.o: ../relay.c ../relay.h ../headers.h \
+dynamic_parser.o: ../dynamic_parser.c \
+ D:/Cardinal\ Test_Calibration_Board/main/headers.h \
  ti_msp_dl_config.h \
  C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/DeviceFamily.h \
@@ -78,11 +79,17 @@ relay.o: ../relay.c ../relay.h ../headers.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Timeout.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/UART_Target.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Profiler.h \
- ../delay_timer.h ../dynamic_parser.h ../usb.h \
+ D:/Cardinal\ Test_Calibration_Board/main/delay_timer.h \
+ D:/Cardinal\ Test_Calibration_Board/main/dynamic_parser.h \
+ D:/Cardinal\ Test_Calibration_Board/main/usb.h \
  D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h \
- ../adc.h ../variables.h ../led.h ../command.h ../app.h
-../relay.h:
-../headers.h:
+ D:/Cardinal\ Test_Calibration_Board/main/adc.h \
+ D:/Cardinal\ Test_Calibration_Board/main/variables.h \
+ D:/Cardinal\ Test_Calibration_Board/main/led.h \
+ D:/Cardinal\ Test_Calibration_Board/main/relay.h \
+ D:/Cardinal\ Test_Calibration_Board/main/command.h \
+ D:/Cardinal\ Test_Calibration_Board/main/app.h
+D:/Cardinal\ Test_Calibration_Board/main/headers.h:
 ti_msp_dl_config.h:
 C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/DeviceFamily.h:
@@ -160,12 +167,13 @@ D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/UART_Interface.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Timeout.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/UART_Target.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/Timer_Profiler.h:
-../delay_timer.h:
-../dynamic_parser.h:
-../usb.h:
+D:/Cardinal\ Test_Calibration_Board/main/delay_timer.h:
+D:/Cardinal\ Test_Calibration_Board/main/dynamic_parser.h:
+D:/Cardinal\ Test_Calibration_Board/main/usb.h:
 D:/Cardinal\ Test_Calibration_Board/MSPM0G_Library/Include/SPI_Interface.h:
-../adc.h:
-../variables.h:
-../led.h:
-../command.h:
-../app.h:
+D:/Cardinal\ Test_Calibration_Board/main/adc.h:
+D:/Cardinal\ Test_Calibration_Board/main/variables.h:
+D:/Cardinal\ Test_Calibration_Board/main/led.h:
+D:/Cardinal\ Test_Calibration_Board/main/relay.h:
+D:/Cardinal\ Test_Calibration_Board/main/command.h:
+D:/Cardinal\ Test_Calibration_Board/main/app.h:

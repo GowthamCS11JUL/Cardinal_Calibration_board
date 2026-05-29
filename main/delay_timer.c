@@ -4,144 +4,122 @@
 /* INITIALIZE TIMER                                 */
 /* ------------------------------------------------ */
 
-void Delay_Timer_Initialize(Delay_Timer *thisTimer,
-                            GPTIMER_Regs *thisTimerRegs,
-                            uint8_t thisInstance,
-                            uint32_t clockFrequency)
-{
-    thisTimer->timer         = thisTimerRegs;
+void Delay_Timer_Initialize(Delay_Timer *thisTimer, GPTIMER_Regs *thisTimerRegs,
+                            uint8_t thisInstance, uint32_t clockFrequency) {
+  thisTimer->timer = thisTimerRegs;
 
-    thisTimer->instanceNum   = thisInstance;
+  thisTimer->instanceNum = thisInstance;
 
-    thisTimer->overflowCount = 0;
+  thisTimer->overflowCount = 0;
 
-    /* -------------------------------------------- */
-    /* Enable Power                                 */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* Enable Power                                 */
+  /* -------------------------------------------- */
 
-    DL_TimerG_enablePower(thisTimer->timer);
+  DL_TimerG_enablePower(thisTimer->timer);
 
-    delay_cycles(1000);
+  delay_cycles(1000);
 
-    /* -------------------------------------------- */
-    /* Enable Clock                                 */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* Enable Clock                                 */
+  /* -------------------------------------------- */
 
-    DL_TimerG_enableClock(thisTimer->timer);
+  DL_TimerG_enableClock(thisTimer->timer);
 
-    /* -------------------------------------------- */
-    /* Configure 1 MHz timer                        */
-    /* 1 tick = 1 us                                */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* Configure 1 MHz timer                        */
+  /* 1 tick = 1 us                                */
+  /* -------------------------------------------- */
 
-    thisTimer->clkConfig.clockSel =
-        DL_TIMER_CLOCK_BUSCLK;
+  thisTimer->clkConfig.clockSel = DL_TIMER_CLOCK_BUSCLK;
 
-    thisTimer->clkConfig.divideRatio =
-        DL_TIMER_CLOCK_DIVIDE_1;
+  thisTimer->clkConfig.divideRatio = DL_TIMER_CLOCK_DIVIDE_1;
 
-    thisTimer->clkConfig.prescale =
-        (clockFrequency / 1000000) - 1;
+  thisTimer->clkConfig.prescale = (clockFrequency / 1000000) - 1;
 
-    DL_TimerG_setClockConfig(thisTimer->timer,
-                             &thisTimer->clkConfig);
+  DL_TimerG_setClockConfig(thisTimer->timer, &thisTimer->clkConfig);
 
-    /* -------------------------------------------- */
-    /* Periodic Up Mode                             */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* Periodic Up Mode                             */
+  /* -------------------------------------------- */
 
-    thisTimer->config.timerMode =
-        DL_TIMER_TIMER_MODE_PERIODIC_UP;
+  thisTimer->config.timerMode = DL_TIMER_TIMER_MODE_PERIODIC_UP;
 
-    thisTimer->config.period = 0xFFFF;
+  thisTimer->config.period = 0xFFFF;
 
-    thisTimer->config.startTimer =
-        DL_TIMER_STOP;
+  thisTimer->config.startTimer = DL_TIMER_STOP;
 
-    DL_TimerG_initTimerMode(thisTimer->timer,
-                            &thisTimer->config);
+  DL_TimerG_initTimerMode(thisTimer->timer, &thisTimer->config);
 
-    /* -------------------------------------------- */
-    /* Enable Overflow Interrupt                    */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* Enable Overflow Interrupt                    */
+  /* -------------------------------------------- */
 
-    DL_TimerG_enableInterrupt(
-        thisTimer->timer,
-        DL_TIMERG_INTERRUPT_ZERO_EVENT
-    );
+  DL_TimerG_enableInterrupt(thisTimer->timer, DL_TIMERG_INTERRUPT_ZERO_EVENT);
 
-    /* -------------------------------------------- */
-    /* NVIC                                         */
-    /* -------------------------------------------- */
+  /* -------------------------------------------- */
+  /* NVIC                                         */
+  /* -------------------------------------------- */
 
-    if(thisInstance == 7)
-    {
-        NVIC_ClearPendingIRQ(TIMG7_INT_IRQn);
+  if (thisInstance == 7) {
+    NVIC_ClearPendingIRQ(TIMG7_INT_IRQn);
 
-        NVIC_EnableIRQ(TIMG7_INT_IRQn);
-    }
+    NVIC_EnableIRQ(TIMG7_INT_IRQn);
+  }
 }
 
 /* ------------------------------------------------ */
 /* START TIMER                                      */
 /* ------------------------------------------------ */
 
-void Delay_Timer_Start(Delay_Timer *thisTimer)
-{
-    /*
-     * Free running timer
-     */
+void Delay_Timer_Start(Delay_Timer *thisTimer) {
+  /*
+   * Free running timer
+   */
 
-    DL_Timer_startCounter(thisTimer->timer);
+  DL_Timer_startCounter(thisTimer->timer);
 }
 
 /* ------------------------------------------------ */
 /* GET CURRENT TIME                                 */
 /* ------------------------------------------------ */
 
-uint32_t Delay_Timer_Get(Delay_Timer *thisTimer)
-{
-    uint32_t overflow1;
+uint32_t Delay_Timer_Get(Delay_Timer *thisTimer) {
+  uint32_t overflow1;
 
-    uint32_t overflow2;
+  uint32_t overflow2;
 
-    uint16_t current;
+  uint16_t current;
 
-    /*
-     * Prevent race condition during overflow
-     */
+  /*
+   * Prevent race condition during overflow
+   */
 
-    do
-    {
-        overflow1 = thisTimer->overflowCount;
+  do {
+    overflow1 = thisTimer->overflowCount;
 
-        current = DL_Timer_getTimerCount(
-                      thisTimer->timer);
+    current = DL_Timer_getTimerCount(thisTimer->timer);
 
-        overflow2 = thisTimer->overflowCount;
+    overflow2 = thisTimer->overflowCount;
 
-    } while(overflow1 != overflow2);
+  } while (overflow1 != overflow2);
 
-    return ((overflow1 << 16) | current);
+  return ((overflow1 << 16) | current);
 }
 
 /* ------------------------------------------------ */
 /* TIMER IRQ                                        */
 /* ------------------------------------------------ */
 
-void Delay_Timer_IRQ(Delay_Timer *thisTimer)
-{
-    switch(DL_TimerG_getPendingInterrupt(
-               thisTimer->timer))
-    {
-        case DL_TIMER_IIDX_ZERO:
-        {
-            thisTimer->overflowCount++;
+void Delay_Timer_IRQ(Delay_Timer *thisTimer) {
+  switch (DL_TimerG_getPendingInterrupt(thisTimer->timer)) {
+  case DL_TIMER_IIDX_ZERO: {
+    thisTimer->overflowCount++;
 
-            break;
-        }
+    break;
+  }
 
-        default:
-            break;
-    }
+  default:
+    break;
+  }
 }

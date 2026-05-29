@@ -1,6 +1,12 @@
 #include "headers.h"
 
-#define USB_CMD_TIMEOUT_US 1000000 // 1000 ms
+#include "dynamic_parser.h"
+
+#define USB_CMD_TIMEOUT_US 1000000UL
+
+/* ------------------------------------------------ */
+/* INVALID RESPONSE                                 */
+/* ------------------------------------------------ */
 
 static const char invalid_cmd[] = "INVALID_COMMAND\r\n";
 
@@ -8,27 +14,41 @@ static const char invalid_cmd[] = "INVALID_COMMAND\r\n";
 /* COMMAND TABLE SETUP                              */
 /* ------------------------------------------------ */
 
-void usb_cmd_data_setup(UART_DATA *param, uint8_t index, const char *cmd,
-                        const char *response, process_cmd_cb_t cb_fn) {
-  if (index >= MAX_NUM_CMDS)
+void usb_cmd_data_setup(UART_DATA *param,uint8_t index,const char *cmd,const char *response,process_cmd_cb_t cb_fn) 
+{
+  uint8_t len;
+
+  if (index >= MAX_NUM_CMDS) {
     return;
+  }
 
-  uint8_t len = strlen(cmd);
+  len = strlen(cmd);
 
-  memcpy(param->command_table[index].command, cmd, len);
+  memcpy(param->command_table[index].command,cmd,len);
 
   param->command_table[index].command[len] = '\0';
+
   param->command_table[index].cmd_len = len;
 
-  if (response != NULL) {
-    uint8_t resp_len = strlen(response);
+  /* -------------------------------------------- */
+  /* RESPONSE                                     */
+  /* -------------------------------------------- */
 
-    memcpy(param->command_table[index].response, response, resp_len);
+  if (response != NULL) {
+    uint8_t resp_len;
+
+    resp_len = strlen(response);
+
+    memcpy(param->command_table[index].response,response,resp_len);
 
     param->command_table[index].resp_len = resp_len;
   } else {
     param->command_table[index].resp_len = 0;
   }
+
+  /* -------------------------------------------- */
+  /* CALLBACK                                     */
+  /* -------------------------------------------- */
 
   param->command_table[index].actions_func = cb_fn;
 }
@@ -38,17 +58,41 @@ void usb_cmd_data_setup(UART_DATA *param, uint8_t index, const char *cmd,
 /* ------------------------------------------------ */
 
 void usb_init(void) {
-  memset(&USB_DATA, 0, sizeof(USB_DATA));
+  memset(&USB_DATA,0,sizeof(UART_DATA));
 
-  UART_Interface_Initialize(&USB_UART, UART0, 0, 255, 255);
+  /* -------------------------------------------- */
+  /* UART                                         */
+  /* -------------------------------------------- */
 
-  Timer_Timeout_Inialize(&USB_Timeout, TIMA0, 0, CPUCLK_FREQ);
+  UART_Interface_Initialize( &USB_UART,UART0,0, 255,255);
 
-  UART_Target_Initialize(&USB_UART, 0, &USB_Timeout, 0, 100000);
+  /* -------------------------------------------- */
+  /* UART TARGET                                  */
+  /* -------------------------------------------- */
 
-  Delay_Timer_Initialize(&USB_BUFFER, TIMG7, 7, CPUCLK_FREQ);
+  Timer_Timeout_Inialize( &USB_Timeout,TIMA0,0,CPUCLK_FREQ);
 
-  Delay_Timer_Start(&USB_BUFFER);
+  UART_Target_Initialize(&USB_UART, 0,&USB_Timeout,0,100000);
+
+  /* -------------------------------------------- */
+  /* DELAY TIMER                                  */
+  /* -------------------------------------------- */
+
+  Delay_Timer_Initialize(
+
+      &USB_BUFFER,
+
+      TIMG7,
+
+      7,
+
+      CPUCLK_FREQ);
+
+  Delay_Timer_Start(
+
+      &USB_BUFFER);
+
+  USB_DATA.uartTargetIndex = 0;
 }
 
 /* ------------------------------------------------ */
@@ -58,7 +102,9 @@ void usb_init(void) {
 void usb_fsm(UART_DATA *param) {
   UART_Target_State state;
 
-  state = UART_Target_getState(param->uartTargetIndex);
+  state = UART_Target_getState(
+
+      param->uartTargetIndex);
 
   switch (state) {
     /* ---------------------------------------- */
@@ -67,11 +113,24 @@ void usb_fsm(UART_DATA *param) {
 
   case UART_TARGET_IDLE: {
     param->cmd_index = 0;
+
     param->command_active = 0;
 
-    UART_Target_Receive(param->uartTargetIndex, &param->rx_byte, 1);
+    memset(
 
-    UART_Target_setState(param->uartTargetIndex, UART_TARGET_WAITING);
+        param->cmd_buffer,
+
+        0,
+
+        sizeof(param->cmd_buffer));
+
+    UART_Target_Receive(
+
+        param->uartTargetIndex,
+
+        &param->rx_byte,
+
+        1);
 
     break;
   }
@@ -97,65 +156,119 @@ void usb_fsm(UART_DATA *param) {
     /* ---------------------------------------- */
 
   case UART_TARGET_RECEIVED: {
-    uint8_t byte = param->rx_byte;
+    uint8_t byte;
 
-    /* First byte received */
+    byte = param->rx_byte;
+
+    /* ------------------------------------ */
+    /* Immediately arm next receive         */
+    /* ------------------------------------ */
+
+    UART_Target_Receive(
+
+        param->uartTargetIndex,
+
+        &param->rx_byte,
+
+        1);
+
+    /* ------------------------------------ */
+    /* First byte                           */
+    /* ------------------------------------ */
+
     if (param->command_active == 0) {
       param->command_active = 1;
+
+      param->cmd_start_time =
+
+          Delay_Timer_Get(&USB_BUFFER);
     }
 
-    /* Restart command timeout */
-    param->cmd_start_time = Delay_Timer_Get(&USB_BUFFER);
+    /* ------------------------------------ */
+    /* Restart timeout                      */
+    /* ------------------------------------ */
 
-    /* ---------------------------- */
-    /* TERMINATION CHARACTER        */
-    /* ---------------------------- */
+    param->cmd_start_time =
 
-    if (byte == '\r' || byte == '\n') {
-      /* Ignore repeated CR/LF */
+        Delay_Timer_Get(&USB_BUFFER);
+
+    /* ------------------------------------ */
+    /* TERMINATION                          */
+    /* ------------------------------------ */
+
+    if ((byte == '\r') || (byte == '\n')) {
+      /*
+       * Ignore empty CR/LF
+       */
+
       if (param->cmd_index == 0) {
-        UART_Target_setState(param->uartTargetIndex, UART_TARGET_WAITING);
-
-        UART_Target_Receive(param->uartTargetIndex, &param->rx_byte, 1);
-
         break;
       }
 
-      /* Null terminate */
+      /*
+       * Null terminate
+       */
+
       param->cmd_buffer[param->cmd_index] = '\0';
 
       param->cmd_len = param->cmd_index;
 
-      /* Process command */
+      /*
+       * Process command
+       */
+
       process_usb_command(param);
 
-      /* Reset command assembly */
+      /*
+       * Reset parser
+       */
+
       param->cmd_index = 0;
+
       param->command_active = 0;
+
+      memset(
+
+          param->cmd_buffer,
+
+          0,
+
+          sizeof(param->cmd_buffer));
     }
 
-    /* ---------------------------- */
-    /* NORMAL DATA BYTE             */
-    /* ---------------------------- */
+    /* ------------------------------------ */
+    /* NORMAL DATA                          */
+    /* ------------------------------------ */
 
     else {
       if (param->cmd_index < (MAX_CMD_LEN - 1)) {
         param->cmd_buffer[param->cmd_index++] = byte;
       } else {
-        /* Buffer overflow */
+        /*
+         * Overflow
+         */
+
         param->cmd_index = 0;
+
         param->command_active = 0;
 
-        UART_Target_Transmit(param->uartTargetIndex, (uint8_t *)invalid_cmd,
-                             sizeof(invalid_cmd) - 1);
+        memset(
+
+            param->cmd_buffer,
+
+            0,
+
+            sizeof(param->cmd_buffer));
+
+        UART_Target_Transmit(
+
+            param->uartTargetIndex,
+
+            (uint8_t *)invalid_cmd,
+
+            sizeof(invalid_cmd) - 1);
       }
     }
-
-    /* Restart next byte receive */
-
-    UART_Target_setState(param->uartTargetIndex, UART_TARGET_WAITING);
-
-    UART_Target_Receive(param->uartTargetIndex, &param->rx_byte, 1);
 
     break;
   }
@@ -173,36 +286,59 @@ void usb_fsm(UART_DATA *param) {
   }
 
   /* ------------------------------------------------ */
-  /* COMMAND ASSEMBLY TIMEOUT                         */
+  /* COMMAND TIMEOUT                                 */
   /* ------------------------------------------------ */
 
   if (param->command_active) {
-    uint32_t now = Delay_Timer_Get(&USB_BUFFER);
+    uint32_t now;
+
+    now = Delay_Timer_Get(&USB_BUFFER);
 
     if ((now - param->cmd_start_time) >= USB_CMD_TIMEOUT_US) {
-      /* Clear partial command */
-
       param->cmd_index = 0;
+
       param->command_active = 0;
 
-      memset(param->cmd_buffer, 0, sizeof(param->cmd_buffer));
+      memset(
 
-      UART_Target_Transmit(param->uartTargetIndex, (uint8_t *)invalid_cmd,
-                           sizeof(invalid_cmd) - 1);
+          param->cmd_buffer,
+
+          0,
+
+          sizeof(param->cmd_buffer));
+
+      UART_Target_Transmit(
+
+          param->uartTargetIndex,
+
+          (uint8_t *)invalid_cmd,
+
+          sizeof(invalid_cmd) - 1);
     }
   }
 }
 
 /* ------------------------------------------------ */
-/* VALIDATE COMMAND                                 */
+/* VALIDATE FIXED COMMANDS                          */
 /* ------------------------------------------------ */
 
 USB_errors_t validate_usb_rx_data(UART_DATA *usb_data) {
   for (uint8_t i = 0; i < MAX_NUM_CMDS; i++) {
-    if (usb_data->cmd_len == usb_data->command_table[i].cmd_len) {
-      if (memcmp(usb_data->cmd_buffer, usb_data->command_table[i].command,
-                 usb_data->cmd_len) == 0) {
-        executing_command = &usb_data->command_table[i];
+    if (usb_data->cmd_len ==
+
+        usb_data->command_table[i].cmd_len) {
+      if (memcmp(
+
+              usb_data->cmd_buffer,
+
+              usb_data->command_table[i].command,
+
+              usb_data->cmd_len
+
+              ) == 0) {
+        executing_command =
+
+            &usb_data->command_table[i];
 
         return ERROR_NONE;
       }
@@ -217,20 +353,65 @@ USB_errors_t validate_usb_rx_data(UART_DATA *usb_data) {
 /* ------------------------------------------------ */
 
 void process_usb_command(UART_DATA *usb_data) {
+  Parsed_Command_t cmd;
+
+  /* -------------------------------------------- */
+  /* FIXED COMMANDS                               */
+  /* -------------------------------------------- */
+
   if (validate_usb_rx_data(usb_data) == ERROR_NONE) {
     if (executing_command->actions_func != NULL) {
       executing_command->actions_func();
     }
 
     if (executing_command->resp_len > 0) {
-      UART_Target_Transmit(usb_data->uartTargetIndex,
-                           executing_command->response,
-                           executing_command->resp_len);
+      UART_Target_Transmit(
+
+          usb_data->uartTargetIndex,
+
+          executing_command->response,
+
+          executing_command->resp_len);
     }
-  } else {
-    UART_Target_Transmit(usb_data->uartTargetIndex, (uint8_t *)invalid_cmd,
-                         sizeof(invalid_cmd) - 1);
+
+    return;
   }
+
+  /* -------------------------------------------- */
+  /* DYNAMIC PARSER                               */
+  /* -------------------------------------------- */
+
+  if (dynamic_parse(
+
+          (char *)usb_data->cmd_buffer,
+
+          &cmd)) {
+    /*
+     * TEMPORARY DEBUG
+     */
+
+    for (uint8_t i = 0; i < cmd.token_count; i++) {
+      printf(
+
+          "TOKEN[%d] = %s\n",
+
+          i,
+
+          cmd.tokens[i]);
+    }
+
+    return;
+  }
+
+  /* -------------------------------------------- */
+  /* INVALID                                      */
+  /* -------------------------------------------- */
+
+  UART_Target_Transmit(
+
+      usb_data->uartTargetIndex,
+
+      (uint8_t *)invalid_cmd,
+
+      sizeof(invalid_cmd) - 1);
 }
-
-

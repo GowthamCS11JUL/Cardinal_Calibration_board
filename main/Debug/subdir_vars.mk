@@ -11,7 +11,9 @@ SYSCFG_SRCS += \
 C_SRCS += \
 ../adc.c \
 ../app.c \
+../command.c \
 ../delay_timer.c \
+../dynamic_parser.c \
 ./ti_msp_dl_config.c \
 C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/m0p/startup_system_files/ticlang/startup_mspm0g350x_ticlang.c \
 ../led.c \
@@ -30,7 +32,9 @@ GEN_FILES += \
 C_DEPS += \
 ./adc.d \
 ./app.d \
+./command.d \
 ./delay_timer.d \
+./dynamic_parser.d \
 ./ti_msp_dl_config.d \
 ./startup_mspm0g350x_ticlang.d \
 ./led.d \
@@ -44,7 +48,9 @@ GEN_OPTS += \
 OBJS += \
 ./adc.o \
 ./app.o \
+./command.o \
 ./delay_timer.o \
+./dynamic_parser.o \
 ./ti_msp_dl_config.o \
 ./startup_mspm0g350x_ticlang.o \
 ./led.o \
@@ -60,7 +66,9 @@ GEN_MISC_FILES += \
 OBJS__QUOTED += \
 "adc.o" \
 "app.o" \
+"command.o" \
 "delay_timer.o" \
+"dynamic_parser.o" \
 "ti_msp_dl_config.o" \
 "startup_mspm0g350x_ticlang.o" \
 "led.o" \
@@ -76,7 +84,9 @@ GEN_MISC_FILES__QUOTED += \
 C_DEPS__QUOTED += \
 "adc.d" \
 "app.d" \
+"command.d" \
 "delay_timer.d" \
+"dynamic_parser.d" \
 "ti_msp_dl_config.d" \
 "startup_mspm0g350x_ticlang.d" \
 "led.d" \
@@ -92,7 +102,9 @@ GEN_FILES__QUOTED += \
 C_SRCS__QUOTED += \
 "../adc.c" \
 "../app.c" \
+"../command.c" \
 "../delay_timer.c" \
+"../dynamic_parser.c" \
 "./ti_msp_dl_config.c" \
 "C:/ti/mspm0_sdk_2_00_00_03/source/ti/devices/msp/m0p/startup_system_files/ticlang/startup_mspm0g350x_ticlang.c" \
 "../led.c" \

@@ -8,6 +8,13 @@
             "projectInfo": {
                 "name": "main",
                 "resourceId": "/main"
+            },
+            "debuggerSettings": {
+                "targetConfigs/MSPM0G1107.ccxml": {
+                    "Texas Instruments XDS110 USB Debug Probe/CORTEX_M0P": {
+                        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                    }
+                }
             }
         },
         {
